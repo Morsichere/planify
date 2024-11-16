@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Función para cargar los datos almacenados en la URL
+        function cargarDatos() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.has('nombreCompleto')) {
+                document.getElementById('nombreCompleto').value = urlParams.get('nombreCompleto');
+            }
+            if (urlParams.has('nombreUsuario')) {
+                document.getElementById('nombreUsuario').value = urlParams.get('nombreUsuario');
+            }
+            if (urlParams.has('correoElectronico')) {
+                document.getElementById('correoElectronico').value = urlParams.get('correoElectronico');
+            }
+            if (urlParams.has('fechaNacimiento')) {
+                document.getElementById('fechaNacimiento').value = urlParams.get('fechaNacimiento');
+            }
+
+            if (urlParams.has('error') && urlParams.get('error') === 'exists') {
+                document.getElementById('mensajeError').style.display = 'block';
+                document.getElementById('mensajeError').innerText = "Error: El nombre de usuario o el correo ya existen.";
+            }
+            if (urlParams.has('success')) {
+                document.getElementById('mensajeExito').style.display = 'block';
+                document.getElementById('mensajeExito').innerText = "Registro exitoso!";
+            }
+        }
+
+        window.onload = cargarDatos;
+    </script>
+</head>
+<body>
+    <header id="encabezado">
+        <div class="contenidoEncabezado">
+            <div class="logo">
+                <img src="../media/logo.png" class="logo">
+            </div>
+           
+            <div class="botonLogin"> 
+                <button type="button" onclick="location.href='login.html'">LOGIN</button>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <!-- Mensajes de error -->
+        <div id="mensajeError" style="display:none; color:red; text-align:center; margin-top:20px;"></div>
+        <div id="mensajeExito" style="display:none; color:green; text-align:center; margin-top:20px;"></div>
+        
+        <!-- Formulario para el registro -->
+        <form class="registroFormulario" action="procesar_registro.php" method="POST">
+            <label for="nombreCompleto">Nombre Completo:</label>
+            <input type="text" id="nombreCompleto" name="nombreCompleto" required>
+
+            <label for="nombreUsuario">Nombre de Usuario:</label>
+            <input type="text" id="nombreUsuario" name="nombreUsuario" required>
+
+            <label for="correoElectronico">Correo Electrónico:</label>
+            <input type="email" id="correoElectronico" name="correoElectronico" required>
+
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+
+            <button type="submit">Registrar</button>
+        </form>
+    </section>
+
+    <footer id="pie">
+        <i class="fab fa-instagram"></i>
+        <i class="fa-solid fa-envelope"></i>
+        <i class="fab fa-whatsapp"></i>
+        <i class="fab fa-tiktok"></i>
+        <i class="fab fa-facebook-f"></i>
+    </footer>
+</body>
+</html>
