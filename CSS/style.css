@@ -1,0 +1,268 @@
+/* Estilo principal */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo fuentes */
+.letraBlanca {
+    color: white;
+}
+
+/* Encabezado */
+#encabezado {
+    position: relative; /* Permite la posición absoluta de elementos hijos */
+    height: 873px;
+    width: 100%;
+    background-image: url("../Media/imageInicio.jpg");
+    background-size: cover;
+    background-position: top center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenidoEncabezado {
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    padding-left: 50px;
+    width: 220px;
+    height: 170px;
+    margin-left: 15px;
+}
+
+.tituloEncabezado {
+    font-size: 7rem;
+    color: white;
+    display: inline-block;
+    margin-left: auto;
+}
+
+
+.botonLogin {
+    background-color: white;
+    width: 200px;
+    height: 20px;
+    font-size: 1.5rem;
+    padding: 20px;
+    margin-left: auto;
+    margin-top: 50px;
+    margin-right: 20px;
+}
+
+.botonLogin button {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: inherit;
+}
+
+
+/* TEXTO CENTRAL */
+#textoEncabezado {
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    font-size: 3rem;
+    margin-left: 475px;
+    margin-right: 475px;
+    margin-top: 200px;
+}
+
+/* BOTONES INFERIORES */
+.botonesInferiores {
+    background-color: white;
+    width: 473px;
+    height: 20px;
+    font-size: 1.5rem;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.botonesInferiores button {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: inherit;
+}
+
+/* Centrar el formulario en el medio del encabezado */
+.registroFormulario {
+    position: absolute; /* Permite el posicionamiento sobre la imagen de fondo */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el centrado */
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    z-index: 2; /* Asegura que el formulario esté sobre el fondo */
+}
+
+/* Estilo de las etiquetas */
+.registroFormulario label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* Estilo de los campos de entrada */
+.registroFormulario input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Estilo del botón de envío */
+.registroFormulario button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.registroFormulario button:hover {
+    background-color: #45a049;
+}
+
+/* FOOTER */
+#pie {
+    width: 100%;
+    height: 80px;
+    background-color: gray;
+    text-align: center;
+}
+
+#pie img {
+    height: 60px;
+    width: auto; 
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+#pie i {
+    line-height: 80px;
+    color: black;
+    font-size: 3rem;
+    padding: 0px 50px;
+    vertical-align: middle;
+}
+
+#pie i:hover {
+    color: #00A192;
+}
+
+.mensajeExito {
+    position: absolute; /* Permite el posicionamiento sobre la imagen de fondo */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el centrado */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    z-index: 2; /* Asegura que el mensaje esté sobre el fondo */
+    width: 300px;
+    color: green;
+    text-align: center;
+}
+
+
+.loginFormulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-left: -55%; 
+}
+
+
+.loginFormulario h2 {
+    margin-bottom: 20px; /* Ajusta el valor para la distancia deseada */
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.loginFormulario div {
+    margin-bottom: 15px; /* Espacio entre cada campo de formulario */
+}
+
+.loginFormulario label {
+    display: block; /* Asegura que la etiqueta esté en una línea separada */
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.loginFormulario input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.loginFormulario button {
+    padding: 10px;
+    background-color: #007BFF; /* Color azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2rem; /* Tamaño de letra más grande */
+    cursor: pointer;
+    transform: translateX(60%); /* Desplaza el botón 20% hacia la derecha */
+}
+
+.loginFormulario button:hover {
+    background-color: #0056b3; /* Color azul más oscuro al pasar el ratón */
+}
+
+#encabezadoLogin {
+    position: relative; /* Permite la posición absoluta de elementos hijos */
+    height: 873px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.botonAtras button {
+    padding: 40px 50px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Temporal: Agrega un borde al botón para visualizarlo */
+.botonAtras {
+    border: 2px solid black; /* Esto te ayudará a ver si está presente pero oculto */
+    margin-left: -300%; /* Ajusta la distancia desde el borde izquierdo */
+}

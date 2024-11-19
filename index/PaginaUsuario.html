@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planify - Página de Usuario</title>
+    <link rel="stylesheet" href="../CSS/hojaestilos.css"> <!-- Enlaza con el archivo CSS externo -->
+    <style>
+        /* Estilo para ocultar y mostrar pestañas */
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+        .tab-buttons {
+            margin-bottom: 20px;
+        }
+        .tab-buttons button {
+            margin: 0 10px;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        /* Estilo para el botón de eliminación */
+        .remove-button {
+            background-color: transparent;
+            border: none;
+            color: red;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Estilos para el contenedor del logout */
+        .logout-container {
+            position: absolute;
+            top: 10px; /* Ajusta según la altura que desees */
+            right: -1500px; /* Ajusta según el margen que desees de la derecha */
+            display: flex;
+            align-items: center;
+        }
+
+        /* Oculta el texto "Cerrar sesión" por defecto */
+        .logout-text {
+            display: none;
+            margin-left: 10px;
+            color: #333;
+        }
+
+        /* Mostrar el texto "Cerrar sesión" cuando se pasa el cursor sobre el candado */
+        .logout-container:hover .logout-text {
+            display: inline;
+        }
+
+        /* Estilo para el botón del candado */
+        .logout {
+            font-size: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal que abarca toda la página -->
+    <div class="container">
+
+        <!-- Barra lateral -->
+        <div class="sidebar">
+            <div class="logout-container">
+                <button class="logout" onclick="confirmLogout();">🔓</button>
+                <span class="logout-text">Cerrar sesión</span>
+            </div>
+
+            <!-- Logo de la página -->
+            <div class="logo">
+                <img src="../media/logo.png" alt="Logo de Planify">
+            </div>
+
+            <!-- Información del usuario -->
+            <div class="user-info">
+                <p>ID: <span id="userID">ID del usuario</span></p>
+                <p>Usuario: <strong id="nombreUsuario">Nombre de usuario</strong></p>
+                <p>Nombre completo: <span id="nombreCompleto">Nombre completo</span></p>
+                <p>Correo: <span id="correoUsuario">Correo del usuario</span></p>
+            </div>
+
+            <!-- Imagen del usuario -->
+            <div class="user-image">
+                <img src="../media/FedericoMartinez.png" alt="Imagen de usuario"> <!-- Aquí puedes poner la ruta de la imagen de usuario -->
+            </div>
+        </div>
+
+        <!-- Panel Principal -->
+        <div class="main-content">
+            <!-- Botones para cambiar entre crear y ver tareas -->
+            <div class="tab-buttons">
+                <button class="btn" onclick="showTab('create-task')">CREAR TAREAS</button>
+                <button class="btn" onclick="showTab('view-tasks')">VER TAREAS</button>
+            </div>
+
+            <!-- Sección inferior: espacio para el calendario y creación de tareas -->
+            <div class="lower-section">
+                <!-- Espacio reservado para el calendario -->
+                <div class="calendar-placeholder">
+                    <p>Calendario Interactivo</p>
+                </div>
+
+                <!-- Sección de creación de tareas -->
+                <div class="tab active" id="create-task">
+                    <div class="task-creation">
+                        <!-- Formulario para enviar tareas a guardar_tarea.php -->
+                        <form id="create-task-form" action="guardar_tarea.php" method="POST">
+                            <label for="task-name">Nombre Tarea:</label>
+                            <input type="text" id="task-name" name="task_name" placeholder="Tarea 1" required>
+
+                            <label for="task-user">Usuarios:</label>
+                            <select id="task-user-search" name="task_user_search">
+                                <!-- Aquí se insertarán los usuarios desde la base de datos -->
+                            </select>
+                            <button type="button" id="add-user-btn">Añadir Usuario</button>
+
+                            <ul id="selected-users"></ul>
+
+                            <input type="hidden" id="task-user" name="task_user" required>
+
+                            <label for="task-start">Fecha Inicio:</label>
+                            <input type="date" id="task-start" name="task_start" required>
+
+                            <label for="task-deadline">Fecha Límite:</label>
+                            <input type="date" id="task-deadline" name="task_deadline" required>
+
+                            <button type="submit" class="create-task">CREAR</button>
+                        </form>
+                        <div id="message-container"></div> <!-- Contenedor para mensajes -->
+                    </div>
+                </div>
+
+                <!-- Sección de ver tareas -->
+                <div class="tab" id="view-tasks">
+                    <div class="task-list">
+                        <p>Aquí se mostrarán las tareas creadas.</p>
+                        <div id="task-container"></div> <!-- Contenedor para las tareas -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Función para mostrar pestañas
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            const selectedTab = document.getElementById(tabId);
+            selectedTab.classList.add('active');
+
+            // Si la pestaña es 'view-tasks', cargar las tareas solo para el usuario conectado
+            if (tabId === 'view-tasks') {
+                fetch('ver_tareas.php')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('task-container').innerHTML = data;
+                    });
+            }
+        }
+
+        // Función para cargar los usuarios en el select
+        function loadUsers() {
+            fetch('cargar_usuarios.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('task-user-search').innerHTML = data;
+                });
+        }
+
+        // Función para cargar los datos del usuario
+        function cargarDatosUsuario() {
+            fetch('obtener_datos_usuario.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        // Si no está autenticado, redirigir al login
+                        alert(data.error);
+                        location.href = 'login.html';
+                    } else {
+                        // Inyectar los datos del usuario en los elementos HTML
+                        document.getElementById('nombreCompleto').innerText = data.nombreCompleto;
+                        document.getElementById('nombreUsuario').innerText = data.nombreUsuario;
+                        document.getElementById('userID').innerText = data.id;
+                        document.getElementById('correoUsuario').innerText = data.correoElectronico;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos del usuario:', error);
+                });
+        }
+
+        // Almacenar los usuarios seleccionados
+        let selectedUsers = [];
+
+        // Función para añadir usuario seleccionado a la lista
+        document.getElementById('add-user-btn').addEventListener('click', function() {
+            const userSelect = document.getElementById('task-user-search');
+            const selectedOption = userSelect.options[userSelect.selectedIndex];
+            const userId = selectedOption.value;
+            const userName = selectedOption.text;
+
+            if (!selectedUsers.includes(userId)) {
+                selectedUsers.push(userId);
+
+                const userList = document.getElementById('selected-users');
+                const li = document.createElement('li');
+                li.textContent = userName;
+                const removeButton = document.createElement('button');
+                removeButton.innerHTML = '&times;'; // Usa la "x" en lugar de "Eliminar"
+                removeButton.classList.add('remove-button');
+                removeButton.addEventListener('click', function() {
+                    userList.removeChild(li);
+                    selectedUsers = selectedUsers.filter(id => id !== userId);
+                    updateHiddenField();
+                });
+
+                li.appendChild(removeButton);
+                userList.appendChild(li);
+            }
+
+            updateHiddenField();
+        });
+
+        // Actualizar el campo oculto con los usuarios seleccionados
+        function updateHiddenField() {
+            document.getElementById('task-user').value = selectedUsers.join(',');
+        }
+
+        // Función para enviar el formulario de creación de tareas mediante AJAX
+        document.getElementById("create-task-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar la recarga de la página
+
+            // Verificar si la fecha límite es anterior a la fecha de inicio
+            const startDate = document.getElementById("task-start").value;
+            const endDate = document.getElementById("task-deadline").value;
+
+            if (new Date(endDate) < new Date(startDate)) {
+                document.getElementById('message-container').innerHTML = '<p class="error-message">Error: La fecha límite no puede ser anterior a la fecha de inicio.</p>';
+                return; // Salir de la función si la fecha límite no es válida
+            }
+
+            const formData = new FormData(this);
+
+            fetch('guardar_tarea.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Mostrar el mensaje de éxito o error
+                document.getElementById('message-container').innerHTML = `<p class="success-message">${data}</p>`; // Mensaje de éxito en verde
+
+                // Si la tarea se creó correctamente, restablecer el formulario
+                if (data.includes("Tarea creada exitosamente")) {
+                    resetForm(); // Restablecer los campos del formulario
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById('message-container').textContent = "Error al crear la tarea.";
+            });
+        });
+
+        // Función para restablecer los campos del formulario
+        function resetForm() {
+            document.getElementById("create-task-form").reset(); // Restablecer campos de texto y fecha
+            document.getElementById("selected-users").innerHTML = ""; // Vaciar la lista de usuarios seleccionados
+            selectedUsers = []; // Limpiar el array de usuarios seleccionados
+            updateHiddenField(); // Actualizar el campo oculto de usuarios seleccionados
+        }
+
+        // Función de confirmación y cierre de sesión
+        function confirmLogout() {
+            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+                window.location.href = 'index.html'; // Redirigir al index.html después de cerrar sesión
+            }
+        }
+
+        // Cargar los datos del usuario y los usuarios al cargar la página
+        document.addEventListener("DOMContentLoaded", function() {
+            cargarDatosUsuario(); // Cargar datos del usuario
+            loadUsers(); // Llama a la función para cargar usuarios
+        });
+    </script>
+</body>
+</html>
