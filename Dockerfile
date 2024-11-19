@@ -8,7 +8,7 @@ WORKDIR /var/www/html
 COPY index/ /var/www/html/
 # Copia la carpeta CSS al directorio raíz de Apache
 COPY CSS/ /var/www/html/CSS/
-
+COPY media/ /var/www/html/media/
 # Cambia el propietario y los permisos de los archivos para que Apache pueda acceder
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
