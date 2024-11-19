@@ -14,7 +14,7 @@
     position: relative; /* Permite la posición absoluta de elementos hijos */
     height: 873px;
     width: 100%;
-    background-image: url("../Media/imageInicio.jpg");
+    background-image: url("../media/imageInicio.jpeg");
     background-size: cover;
     background-position: top center;
     display: flex;
