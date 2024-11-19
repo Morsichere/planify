@@ -55,7 +55,7 @@ $sql = "INSERT INTO usuariosPlanify (nombreCompleto, nombreUsuario, correoElectr
 
 // Ejecutar la consulta y comprobar si se insertó correctamente
 if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('Registro exitoso!'); window.location.href='login.html';</script>";
+    echo "<script>alert('Registro exitoso!'); window.location.href='Login.html';</script>";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
