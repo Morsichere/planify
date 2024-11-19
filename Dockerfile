@@ -4,12 +4,18 @@ FROM php:8.1-apache
 # Establece el directorio de trabajo en el contenedor
 WORKDIR /var/www/html
 
-# Copia todos los archivos de tu proyecto al directorio de trabajo
-COPY . .
+# Copia los archivos del subdirectorio "index" al directorio raíz de Apache
+COPY index/ /var/www/html/
 
-# Cambia el dueño de los archivos para que Apache pueda acceder
+# Cambia el propietario y los permisos de los archivos para que Apache pueda acceder
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
+
+# Configura el ServerName para evitar advertencias de Apache
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Configura el archivo predeterminado de índice (index.html o index.php)
+RUN echo "DirectoryIndex index.html index.php" >> /etc/apache2/apache2.conf
 
 # Instala extensiones necesarias de PHP (ejemplo: mysqli)
 RUN docker-php-ext-install mysqli
