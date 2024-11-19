@@ -5,7 +5,7 @@ FROM php:8.1-apache
 WORKDIR /var/www/html
 
 # Copia los archivos del subdirectorio "index" al directorio raíz de Apache
-COPY index/ /var/www/html/
+COPY . /var/www/html/
 
 # Cambia el propietario y los permisos de los archivos para que Apache pueda acceder
 RUN chown -R www-data:www-data /var/www/html \
