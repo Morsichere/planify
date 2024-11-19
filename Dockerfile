@@ -2,10 +2,10 @@
 FROM php:8.1-apache
 
 # Copia todos los archivos de tu proyecto al contenedor
-COPY . /var/www/html/
+COPY . /planify/index
 
 # Cambia el dueño de los archivos para que Apache pueda acceder
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /planify/index
 
 # Exponer el puerto 80 (usado por Apache)
 EXPOSE 80
