@@ -37,16 +37,16 @@ if ($result->num_rows > 0) {
         $_SESSION['nombreCompleto'] = $row['nombreCompleto'];
 
         // Redirigir al usuario a la página de usuario
-        header("Location: http://localhost/ProyectoDAW/index/PaginaUsuario.html");
+        header("Location: http://planify-1ppq.onrender.com/index/PaginaUsuario.html");
         exit(); // Asegura que el script se detenga después de la redirección
     } else {
         // Contraseña incorrecta, redirigir al login con el parámetro de error
-        header("Location: http://localhost/ProyectoDAW/index/login.html?error=incorrect_password");
+        header("Location: http://planify-1ppq.onrender.com/index/login.html?error=incorrect_password");
         exit();
     }
 } else {
     // Usuario no encontrado, redirigir al login con el parámetro de error
-    header("Location: http://localhost/ProyectoDAW/index/login.html?error=user_not_found");
+    header("Location: http://planify-1ppq.onrender.com/index/login.html?error=user_not_found");
     exit();
 }
 
