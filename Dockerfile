@@ -5,7 +5,9 @@ FROM php:8.1-apache
 WORKDIR /var/www/html
 
 # Copia los archivos del subdirectorio "index" al directorio raíz de Apache
-COPY . /var/www/html/
+COPY index/ /var/www/html/
+# Copia la carpeta CSS al directorio raíz de Apache
+COPY CSS/ /var/www/html/CSS/
 
 # Cambia el propietario y los permisos de los archivos para que Apache pueda acceder
 RUN chown -R www-data:www-data /var/www/html \
