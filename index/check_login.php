@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
         $_SESSION['nombreCompleto'] = $row['nombreCompleto'];
 
         // Redirigir al usuario a la página de usuario
-        header("Location: http://planify-1ppq.onrender.com/index/PaginaUsuario.html");
+        header("Location: http://planify-1ppq.onrender.com/PaginaUsuario.html");
         exit(); // Asegura que el script se detenga después de la redirección
     } else {
         // Contraseña incorrecta, redirigir al login con el parámetro de error
