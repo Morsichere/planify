@@ -1,17 +1,7 @@
 <?php
-// Conexión a la base de datos
-$servername = "mysql-planify.alwaysdata.net"; // MySQL Hostname proporcionado
-$username = "planify";             // MySQL Username proporcionado
-$password = "proyecto1";            // MySQL Password proporcionada (haz clic en "Show/Hide")
-$dbname = "planify_1";       // Nombre de la base de datos
-$port = 3306;                           // MySQL Port (por defecto)
+require_once 'db_connection.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Comprobar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+$conn = getDatabaseConnection();
 
 // Consulta para obtener los usuarios
 $sql = "SELECT nombreUsuario FROM usuariosPlanify";
